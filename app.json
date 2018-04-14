@@ -1,0 +1,7 @@
+{
+ "name": "DFS",
+ "description": "A node js application to share files",
+ "repository": "https://github.com/moin2672/DFS",
+ "logo": "NA",
+ "keywords": ["node", "express", "multer"],
+}
