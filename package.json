@@ -23,5 +23,18 @@
   },
   "devDependencies": {
     "nodemon": "^1.17.2"
-  }
+  },
+  "engines" :{
+	"node": "0.12.7"
+  },
+  "repository": {
+	"type": "git",
+	"url": "https://github.com/moin2672/DFS"
+  },
+  "keywords": [
+	"node",
+	"heroku",
+	"express"
+  ],
+  "license": "MIT"
 }
