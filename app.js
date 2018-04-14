@@ -475,7 +475,7 @@ app.post('/mail/:filename',(req, res) => {
             pass: 'Deys@1234'
         }
     });
-    var sendLink="http://localhost:5005/files/"+req.params.filename;
+    var sendLink="https://ancient-lowlands-63879.herokuapp.com/files/"+req.params.filename;
     let mailOptions = {
         from: '"DFS Admin Team" <xx@gmail.com>', // sender address
         to: req.body.emailID, // list of receivers
@@ -494,6 +494,7 @@ app.post('/mail/:filename',(req, res) => {
             res.redirect('/files/'+req.params.filename);
         });
 });
+
 
 app.post('/files/:filename', (req, res)=> {
     // console.log('inside function');
