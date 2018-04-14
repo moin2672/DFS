@@ -55,7 +55,6 @@ var storage = GridFsStorage({
             originalname: file.originalname,
             userName:req.body.userName,
             attachmentDescription: req.body.attachmentDescription,
-            downloadCode: req.body.downloadCode,
             deleteCode:req.body.deleteCode,
             views:0,
             reviews:[]
