@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Comptible" content="ie=edge">
+<title>Deys File Sharepoint</title>
+
+<head>
+    <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script>
+        jQuery(document).ready(function(){
+       jQuery('#righty').bind('contextmenu',function() { return false; });
+    });
+    window.frames["#righty"].document.oncontextmenu = function(){ return false; };
+    // $('#righty').on("contextmenu",function(e){
+    //     alert('right click disabled');
+    //     return false;
+    // });
+    
+    </script>
+    <style>
+       a:link {
+        text-decoration: none;
+    }
+    
+    a:visited {
+        text-decoration: none;
+    }
+    
+    a:hover {
+        text-decoration: none;
+    }
+    
+    a:active {
+        text-decoration: none;
+    }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="/">DEYS File Sharepoint</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/upload">Upload</a>
+                </li>
+
+            </ul>
+            <!-- <form class="form-inline my-2 my-lg-0" style="padding-right:200px">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            </form> -->
+
+        </div>
+
+    </nav>
+
+    <div class="container">
+        
+            <div class="col-md-10 m-auto">
+                <% if(files){ %>
+                    <% files.forEach(function(file){ %>
+                        
+                            <!-- <form method="post" action="./files/<%=file.filename%>?_method=PUT"> -->
+                    <!-- <form method="post" action="./files/<%=file.filename%>" > -->
+                        
+                            <!-- <input type="submit" value="Delete" class="btn btn-danger btn-block"> -->
+                            <!-- <button type="submit" value="Submit" style="width:100%;"> -->
+                                    
+                        <div class="card card-body mb-3">
+                            <div class="card text-white bg-primary mb-3">
+                                <div class="card-header bg-primary">
+                                    <%   if(file.metadata.userName) {%>
+                                        <h3>
+                                            <%=file.metadata.userName.toUpperCase()%>
+                                        </h3>
+                                        <%} else {%>
+                                            <h3>Unknown User</h3>
+                                            <%}%>
+                                            <div class="row" style="margin-bottom:-15px;">
+                                                <div class="col">
+                                                        <small>  <b> uploaded on: </b>
+                                                            <%=new String(file.uploadDate).substring(0,24)%></small>
+                                                </div>
+                                                <div class="col">
+                                                        <small> <b><i class="fa fa-eye" style="font-size:15px;"></i></b> 
+                                                            <%=file.metadata.views%></small>
+                                                </div>
+                                            </div> 
+                                              
+                                                <br>
+                                                <i style="font-size:18px;">'<%=file.metadata.attachmentDescription%>'</i>
+                                                    <br>
+                                                    <!-- <b>file name: </b>
+                                                    <%=file.filename%>
+                                                        <br>
+                                                        <b>original name: </b>
+                                                        <%=file.metadata.originalname%> -->
+                                                       
+                                                        <small><b>attachment name: </b><%=file.metadata.originalname%></small>
+                                </div>
+                            </div>
+                            <% if(file.isVideo){ %>
+                                <!-- <img src="file/<%=file.filename%>" alt=""> -->
+                                <!-- <iframe style="margin-top:10px" src="file/<%=file.filename%>" width="100%" height="100%" >
+                                </iframe> -->
+                                <div style="text-align:center;">
+                                    <video width="100%" id="righty" style="margin-bottom:10px;" controls controlsList="nodownload" >
+                                        <source src="file/<%=file.filename%>" type="video/mp4">
+                                        <!-- <source src="mov_bbb.ogg" type="video/ogg">
+                                        Your browser does not support HTML5 video. -->
+                                    </video>
+
+                                </div>
+                                <% } %>
+                                    <% if(file.isImage){ %>
+                                        <div style="text-align:center;">
+                                            <img width="100%" style="margin-bottom:10px;" src="file/<%=file.filename%>" id="righty" title="<%=file.metadata.originalname%>" alt="<%=file.metadata.originalname%>">
+                                        </div>
+                                        <% } %>
+                                        <% if(file.isPDF){ %>
+                                            <div style="text-align:center;">
+                                                     <!-- <iframe id="righty" style="margin-top:10px; height:500px;" src="file/<%=file.filename%>" width="100%" height="100%" oncontextmenu="none">
+                                                    </iframe> -->
+                                                    <embed id="righty" src="file/<%=file.filename%>#toolbar=0&navpanes=0&scrollbar=0" style="margin-top:10px; height:500px;" type="" width="100%" height="100%">
+                                            </div>
+                                            <% } %>
+                                            <% if(!file.isVideo && !file.isImage && !file.isPDF){%>
+                                                <%=file.metadata.originalname%>
+                                                    <% } %>
+
+                                                  
+                                                        <!-- goodcode -->
+                                                            <br>
+                                                            <br>
+                                                        <form method="post" action="/files/<%=file._id%>/<%=file.filename%>">
+                                                            <%if(file.metadata.deleteCode) {%>
+                                                            <input type="text" class="form-control" name="deleteCode" placeholder="Enter Deletion code..." required>
+                                                            <%}%>
+                                                            <input type="submit" value="Delete" class="btn btn-danger btn-block">
+                                                        </form>
+                                                        <br>
+                                                       <!-- <form action="get" action="/file/<%=file.filename%>">
+                                                        <input type="submit" value="Download" class="btn btn-primary btn-block">
+                                                       </form> -->
+                                                        
+<div class="row">
+<div class="col">
+        <a href="/file/<%=file.filename%>" download><button class="btn btn-warning" >Download <i class="fa fa-arrow-down"></i></button></a>
+</div>
+<div class="col">
+        <button type=button class="btn btn-warning" data-toggle="modal" data-target="#myModal">
+                Share <i class="fa fa-share-alt"></i></button>
+ <div id="myModal" class="modal fade" role="dialog">
+                 <div class="modal-dialog">
+                                 <div class="modal-content">
+                                                 <div class="modal-header">
+                                                         <h3 class="modal-title">Enter name and emailID to share file...</h3>
+                                                         <button type=button class="close" style="color:red" data-dismiss="modal">&times;</button>
+                                                                 
+                                                 </div>
+                                                 <div class="modal-body">
+                                                        <form method="post" action="/mail/<%=file.filename%>">
+                                                            <input type="text" class="form-control" name="mailerName" placeholder="Your Name..." required>
+                                                            <input type="text" class="form-control" name="emailID" placeholder="To Email ID..." required>
+                                                            <!-- <textarea class="form-control rsize" name="rComment" id="rComment" placeholder="Reviewers Comment...." rows="2" required></textarea> -->
+                                                            <!-- <input type="submit" value="+ Add Post" class="btn btn-success btn-block"> -->
+                                                            <button type="submit" class="btn btn-success btn-block">Send <i class="fa fa-share-square"></i></button>
+                                                        </form> 
+                                                 </div>
+                                 </div>
+                 </div>
+ </div>                  
+
+
+    </div>
+</div>
+                                                      
+                                                        <br>
+                                                        <hr>
+<h3>Review Section</h3>                                                        
+<form method="post" action="/review/<%=file.filename%>">
+                 <input type="text" class="form-control" name="rName" placeholder="Reviewers Name..." required>
+                 <textarea class="form-control rsize" name="rComment" id="rComment" placeholder="Reviewers Comment...." rows="2" required></textarea>
+                 <!-- <input type="submit" value="+ Add Post" class="btn btn-success btn-block"> -->
+                 <button type="submit" class="btn btn-warning btn-block">Post <i class="fa fa-plus-square"></i></button>
+             </form> 
+             <hr>
+                                                        <%if(file.metadata.reviews.length>0){%>
+                                                            <!-- <%=file.metadata.reviews.length%> -->
+<%var len=file.metadata.reviews.length%>
+                                                            <%for(var i=len-1;i>=0;--i){%>
+                                                                    <div class="alert alert-dismissible alert-info" style="margin-bottom:-10px;">
+                                                                            <!-- <button type="button" class="close" data-dismiss="alert">&times;</button> -->
+                                                                            <h5 class="alert-heading"><b><%=file.metadata.reviews[i].rName.toUpperCase()%></b></h5>
+                                                                            <p class="mb-0"><i><i class="fa fa-comments"></i> "<%=file.metadata.reviews[i].rComment%>"</i></p>
+                                                                          </div>
+
+<br>
+<%}%>
+
+                                                                
+
+                                                            <%} else {%>
+                                                                <p>no review comment added</p>    
+                                                                <%}%>
+                                                        
+                                                        
+                        </div>
+                    
+                    <!-- </button> -->
+                    
+               
+                    
+                    <!-- <input type="hidden" name="_method" value="PUT" /> -->
+                   
+                </form>
+                
+                        <% }) %>
+
+                      
+
+                            <% } else { %>
+                                <p>No Files to Show</p>
+                                <% } %>
+                 
+                </div>
+            </div>
+    </div>
+
+
+
+</body>
+
+</html>
