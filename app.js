@@ -588,8 +588,16 @@ app.get('/file1/:id', function(req, res){
 
 
 
-const port = process.env.PORT | 5005;
+/*const port = process.env.PORT | 5005;
 
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);
 });
+*/
+
+var port = process.env.PORT || 3000;
+app.listen(port, "0.0.0.0", function() {
+console.log("Listening on Port 3000");
+});
+
+
