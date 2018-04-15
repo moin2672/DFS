@@ -4,21 +4,10 @@ var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 nodeMailer = require('nodemailer');
-// var mongoose = require('mongoose')
-// require('mongoose-regexp')(mongoose);
- 
-// var mySchema = Schema({ reg: RegExp });
-// var M = mongoose.model('RegExp', mySchema);
 
-
-//mongoose.connect('mongodb://127.0.0.1/testing123');
-
-// const mongoURI = "mongodb://syed:syed@ds117749.mlab.com:17749/fileupload";
-// const conn = mongoose.createConnection(mongoURI);
 mongoose.connect("mongodb://syed:syed@ds117749.mlab.com:17749/fileupload");
 var conn = mongoose.connection;
 
-//var conn = mongoose.connection;
 var multer = require('multer');
 var GridFsStorage = require('multer-gridfs-storage');
 var Grid = require('gridfs-stream');
@@ -127,67 +116,6 @@ app.post('/upload', function(req, res) {
     });
 });
 
-
-
-
-
-/*
-app.delete('files/:id', function(req, res){
-    // gfs.;
-    
-    gfs.collection('ctFiles');
-   
-    gfs.files.findOne({_id:req.params.id}, function(err, files){
-        if(err){
-            return res.status(400).json('error in finding the document', err);
-            
-        }
-        return res.json(files)
-
-    })
-
-
-
-    gfs.files.remove({
-        _id : req.params.id,
-        root: 'ctFiles'
-        }, function (err) {<form action="/files/<%=file._id%>" method="POST" enctype="multipart/form-data">
-                                                            <div class="form-group">
-                                                                <input type="text" class="form-control" name="deleteCode" id="deleteCode" placeholder="Deletion code....">
-                                                            </div>
-                                                            <input type="submit" value="Del" class="btn btn-primary btn-block">
-                                                        </form>
-          if (err) return handleError(err);
-          console.log('success');
-        });
-
-      /*  
-    gfs.files.remove({
-        _id: req.params.id,
-        root:'ctFiles'
-    }, (err, gridStore) => {
-        if(err) {
-            return res.status(404).json({err: err});
-        }
-        res.redirect('/');
-    })
-});*/
-/*
-app.post("/search", (req,res) =>{
-    console.log(req.body);
-    var name=req.body.search;
-    var regexValue = '\.*'+name.toLowerCase().trim()+'\.*';
-    const CheckValue =new RegExp(regexValue,'i');
-        //const regex = new RegExp(name.toLowerCase().trim(), 'i')
-        console.log(regexValue);   
-        gfs.files.find({$or:[{'metadata.userName': CheckValue},{'metadata.originalname': CheckValue},{'metadata.attachmentDescription': CheckValue}]}).toArray(function(err, files){
-            if(!files || files.length === 0){
-                console.log("no files found");
-            }
-            console.log(files);
-        });
-});
-*/
 app.get("/search",(req,res)=>{
     res.redirect("/");
 });
@@ -259,25 +187,10 @@ app.post("search/search", (req,res) =>{
 
 app.post("/files/:id/:filename", (req, res) => {
     
-        console.log(req.body);
-        console.log(req.params.id);
-        console.log(req.params.filename);
-        //var ObjectID = mongoose.mongo.BSONPure.ObjectID(req.params.id);
-       gfs.collection('ctFiles'); //set collection; name to lookup into
-      //  console.log(gfs.collection('ctFiles'));
-            /** First check if file exists */
-            // gfs.files.findOne({_id: req.params.id, root:'ctFiles'}, (err, file) =>{
-            //     if(!file || file.length===0){
-            //         return res.status(404).json({err:'No file exist'});
-            //     }
-            
+       gfs.collection('ctFiles');            
             gfs.files.find({filename: req.params.filename, "metadata.deleteCode":req.body.deleteCode}).toArray(function(err, files){
                 if(!files || files.length === 0){
-                    //console.log("no files found");
-                   // return res.render('index.ejs', {result: 'Invalid Deletion code'});
-                    
-                   // res.render('Invalidcode');
-                    return res.status(404).render('Invalidcode');//json({err:'Invalid Deletion code'});
+                   return res.status(404).render('Invalidcode');//json({err:'Invalid Deletion code'});
                 }
                 gfs.remove({
                     _id: req.params.id, 
@@ -288,85 +201,15 @@ app.post("/files/:id/:filename", (req, res) => {
                         
                     }
                     res.redirect('/');
-                   //return res.status(200).json({ _id: req.params.id, 'metadata.deleteCode':req.body.deleteCode});
                 });
             });
-  /*     
-            gfs.files.findOne({_id: req.params.id}, function(err, files){
-                if(!files || files.length === 0){
-                    return res.status(404).json({
-                        responseCode: 1,
-                        responseMessage: "error"
-                    });
-                }
-                return res.json(files);
-            });
-*/
-// var file_id = req.params.id;
-
-//   gfs.files.find({_id: file_id}).toArray(function (err, files) {
-//     if (err) {
-//       res.json(err);
-//     }
-//     if (files.length > 0) {
-//       var mime = files[0].contentType;
-//       var filename = files[0].filename;
-//       res.set('Content-Type', mime);
-//       res.set('originalname', filename);
-//       var read_stream = gfs.createReadStream({_id: file_id});
-//       read_stream.pipe(res);
-//     } else {
-//       res.json('File Not Found');
-//     }
-//   });
-
-        // var myData = new User(req.body);
-        // console.log(myData);
-        // myData.save()
-        //     .then(item => {
-        //         res.send("Name saved to database");
-        //     })
-        //     .catch(err => {
-        //         res.status(400).send("Unable to save to database");
-        //     });
-    });
+ });
  
 
 /* VERY IMPORTANT ONE NEED TO WORK ON THIS */
 
-app.get('/files123', (req,res) => {
-    var name='scratch';
-var regexValue = '\.*'+name+'\.'
-    //const regex = new RegExp(name.toLowerCase().trim(), 'i')
-    
-    gfs.files.find({'metadata.userName': new RegExp(regexValue,'i')}).toArray(function(err, files){
-        if(!files || files.length === 0){
-            console.log("no files found");
-        }
-        console.log(files);
-    });
-//    var outputFiles = gfs.files.find().toArray((err,files)=>{
-        
-        
-//         // i++;
-//         // console.log('result===>', i);
-//         // console.log(files);
-       
-       
-//         //console.log(files);
-//         //return res.json(files);        
-//     });
-    
-});
-
-
 app.delete('/files/:id', (req,res) => {
-
-    //return res.json({delcode: req.body.deleteCode});
-    console.log(req.body.deleteCode);
-    console.log(req.params.id);
-
-    gfs.remove({
+   gfs.remove({
         _id: req.params.id, 
         'metadata.deleteCode':req.body.deleteCode , 
         root:'ctFiles'}, (err, gridStore) => {
@@ -383,27 +226,7 @@ app.delete('/files/:id', (req,res) => {
 
 
 app.get('/files/:filename', (req,res) => {
-    //gfs.collection('ctFiles'); //set collection; name to lookup into
-   
-          
-        //   gfs.files.find({filename: req.params.filename, "metadata.deleteCode":req.body.deleteCode}).toArray(function(err, files){
-        //       if(!files || files.length === 0){
-        //           //console.log("no files found");
-        //          // return res.render('index.ejs', {result: 'Invalid Deletion code'});
-        //           return res.status(404).json({err:'Invalid Deletion code'});
-        //       }
-        //       gfs.remove({
-        //           _id: req.params.id, 
-        //           'metadata.deleteCode':req.body.deleteCode , 
-        //           root:'ctFiles'}, (err, gridStore) => {
-        //           if(err){
-        //               return res.status(404).json({err:err});
-        //           }
-        //           res.redirect('/');
-        //          //return res.status(200).json({ _id: req.params.id, 'metadata.deleteCode':req.body.deleteCode});
-        //       });
-        //   });
-          gfs.collection('ctFiles'); //set collection name to lookup into
+    gfs.collection('ctFiles'); //set collection name to lookup into
           
               /** First check if file exists */
               gfs.files.find({filename: req.params.filename}).toArray((err, files)=>{
@@ -436,29 +259,19 @@ app.get('/files/:filename', (req,res) => {
                 if(err){
                     console.log('got some error');
                 }
-                //res.json(result);
             })
 });
 
-// app.post("/review/:filename", (req, res) => {
-    
-//         console.log(req.body);
-//         console.log(req.params.id);
-//         console.log(req.params.filename);
-// });
-
 app.post('/review/:filename',(req,res)=>{
-    //console.log(req.body);
+    
    gfs.collection('ctFiles'); //set collection; name to lookup into
-    //console.log(req.params.filename);
+    
     gfs.files.update({filename:req.params.filename},{$addToSet:{'metadata.reviews':{rName:req.body.rName,rComment:req.body.rComment}}}, function(err, result){
         if(err){
             console.log('got some error');
         }
-//        res.json(result);
-//var url=req.params.filename;
- res.redirect('/files/'+req.params.filename);
-//res.render('file');
+res.redirect('/files/'+req.params.filename);
+
     })
 
 });
@@ -479,7 +292,6 @@ app.post('/mail/:filename',(req, res) => {
         from: '"DFS Admin Team" <xx@gmail.com>', // sender address
         to: req.body.emailID, // list of receivers
         subject: req.body.mailerName+' shared a file with you', // Subject line
-        //text: req.body.body, // plain text body
         
         html: '<p style="color: #800080;margin-bottom:-5px;"><small style="font-size:26px;">&nbsp; DEYS</small> <br><small><span> FILE SHAREPOINT</span></small></p>  <br>Your friend has shared a file with you. <br><br> <a href='+sendLink+'>click on it to check the file</a><br> <br> <p>Regards,<br><b>DFS Team</b></p>'// html body
     };
@@ -489,7 +301,6 @@ app.post('/mail/:filename',(req, res) => {
             return console.log(error);
         }
         console.log('Message %s sent: %s', info.messageId, info.response);
-            //res.redirect('/');
             res.redirect('/files/'+req.params.filename);
         });
 });
@@ -505,15 +316,6 @@ app.post('/files/:filename', (req, res)=> {
          }
          //res.json(result);
      })
- 
-     // gfs.files.find({filename: req.params.filename}).toArray((err, files)=>{
-     //     if(!files || files.length===0){
-     //         res.render('index',{files:false});
-     //     } else {
-     //         res.json(files);
-     //     }
-     // });
-            
  });
 
 app.get('/files/file/:filename', function(req, res){
@@ -562,38 +364,6 @@ app.get('/file/:filename', function(req, res){
     });
 });
 
-app.get('/file1/:id', function(req, res){
-    gfs.collection('ctFiles'); //set collection name to lookup into
-
-    /** First check if file exists */
-    gfs.files.find({_id: req.params.id}).toArray(function(err, files){
-        if(!files || files.length === 0){
-            return res.status(404).json({
-                responseCode: 1,
-                responseMessage: "error"
-            });
-        }
-        /** create read stream */
-        var readstream = gfs.createReadStream({
-            id: files[0]._id,
-            root: "ctFiles"
-        });
-        /** set the proper content type */
-        res.set('Content-Type', files[0].contentType)
-        /** return response */
-        return readstream.pipe(res);
-    });
-});
-
-
-
-
-/*const port = process.env.PORT | 5005;
-
-app.listen(port, () => {
-    console.log(`Server started on port ${port}`);
-});
-*/
 
 var port = process.env.PORT || 3000;
 app.listen(port, "0.0.0.0", function() {
